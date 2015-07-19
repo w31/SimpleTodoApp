@@ -11,8 +11,6 @@
 @implementation TodoItemViewController
 {
     NSDictionary *_priorityDic;
-
-    SimpleTodoPriority _priority;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -21,8 +19,6 @@
         _priorityDic = @{ @(SimpleTodoPriorityLow): @"Low",
                           @(SimpleTodoPriorityNormal): @"Normal",
                           @(SimpleTodoPriorityHigh): @"High" };
-
-        _priority = SimpleTodoPriorityNormal;
     }
 
     return self;
@@ -32,7 +28,8 @@
 {
     [super viewDidLoad];
 
-    self.priorityLabel.text = [_priorityDic objectForKey:@(_priority)];
+    self.todoTextField.text = self.todoName;
+    self.priorityLabel.text = [_priorityDic objectForKey:@(self.todoPriority)];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -50,7 +47,7 @@
         controller.delegate = self;
         controller.title = @"Select Priority";
         controller.items = [_priorityDic allValues];
-        controller.selectedIndex = [controller.items indexOfObject:[_priorityDic objectForKey:@(_priority)]];
+        controller.selectedIndex = [controller.items indexOfObject:[_priorityDic objectForKey:@(self.todoPriority)]];
     }
 }
 
@@ -63,11 +60,9 @@
 - (IBAction)done:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 
-    TodoItem *todoItem = [[TodoItem alloc] init];
-    todoItem.name = self.todoTextField.text;
-    todoItem.priority = _priority;
+    self.todoName = self.todoTextField.text;
 
-    [self.delegate todoItemViewController:self didAddTodoItem:todoItem];
+    [self.delegate todoItemViewControllerDidComplete:self];
 }
 
 
@@ -77,7 +72,7 @@
 {
     self.priorityLabel.text = item;
 
-    _priority = [[[_priorityDic allKeysForObject:item] firstObject] intValue];
+    self.todoPriority = [[[_priorityDic allKeysForObject:item] firstObject] intValue];
 
     [self.navigationController popViewControllerAnimated:YES];
 }

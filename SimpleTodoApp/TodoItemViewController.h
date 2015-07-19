@@ -15,13 +15,16 @@
 @protocol TodoItemViewControllerDelegate <NSObject>
 
 - (void)todoItemViewControllerDidCancel:(TodoItemViewController *)controller;
-- (void)todoItemViewController:(TodoItemViewController *)controller didAddTodoItem:(TodoItem *)item;
+- (void)todoItemViewControllerDidComplete:(TodoItemViewController *)controller;
 
 @end
 
 @interface TodoItemViewController : UITableViewController <SimpleItemPickerDelegate>
 
 @property (nonatomic, weak) id <TodoItemViewControllerDelegate> delegate;
+
+@property (nonatomic, strong) NSString *todoName;
+@property (nonatomic, assign) SimpleTodoPriority todoPriority;
 
 @property (weak, nonatomic) IBOutlet UITextField *todoTextField;
 @property (weak, nonatomic) IBOutlet UILabel *priorityLabel;

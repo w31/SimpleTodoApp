@@ -52,6 +52,8 @@
         TodoItemViewController *detailsController = [navController viewControllers][0];
 
         detailsController.delegate = self;
+        detailsController.todoName = @"";
+        detailsController.todoPriority = SimpleTodoPriorityNormal;
     }
 }
 
@@ -90,8 +92,11 @@
 
 }
 
--(void)todoItemViewController:(TodoItemViewController *)controller didAddTodoItem:(NSString *)item
+-(void)todoItemViewControllerDidComplete:(TodoItemViewController *)controller
 {
+    TodoItem *item = [[TodoItem alloc] init];
+    item.name = controller.todoName;
+    item.priority = controller.todoPriority;
     [[SimpleTodoModel sharedInstance].todoList addObject:item];
 
     [self.tableView reloadData];
