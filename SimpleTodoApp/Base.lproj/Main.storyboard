@@ -30,6 +30,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="vbI-vN-Eeo" kind="presentation" identifier="Edit Todo Item" id="qUp-TO-2kr"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -198,4 +201,7 @@
             <point key="canvasLocation" x="770.625" y="-9.5070422535211261"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="qUp-TO-2kr"/>
+    </inferredMetricsTieBreakers>
 </document>

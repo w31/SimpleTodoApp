@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger, SimpleTodoPriority) {
 
 @interface TodoItem : NSObject
 
+@property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) SimpleTodoPriority priority;
 

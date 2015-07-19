@@ -52,8 +52,21 @@
         TodoItemViewController *detailsController = [navController viewControllers][0];
 
         detailsController.delegate = self;
+        detailsController.action = @"add";
         detailsController.todoName = @"";
         detailsController.todoPriority = SimpleTodoPriorityNormal;
+    }
+    else if ([segue.identifier isEqualToString:@"Edit Todo Item"]) {
+        UINavigationController *navController = segue.destinationViewController;
+        
+        TodoItemViewController *detailsController = [navController viewControllers][0];
+
+        detailsController.delegate = self;
+        detailsController.action = @"edit";
+        TodoItem *item = [SimpleTodoModel sharedInstance].todoList[[self.tableView indexPathForSelectedRow].row];
+        detailsController.uuid = item.uuid;
+        detailsController.todoName = item.name;
+        detailsController.todoPriority = item.priority;
     }
 }
 
@@ -94,10 +107,23 @@
 
 -(void)todoItemViewControllerDidComplete:(TodoItemViewController *)controller
 {
-    TodoItem *item = [[TodoItem alloc] init];
-    item.name = controller.todoName;
-    item.priority = controller.todoPriority;
-    [[SimpleTodoModel sharedInstance].todoList addObject:item];
+    if ([controller.action isEqualToString:@"add"]) {
+        TodoItem *item = [[TodoItem alloc] init];
+        item.uuid = [[NSUUID UUID] UUIDString];
+        item.name = controller.todoName;
+        item.priority = controller.todoPriority;
+        [[SimpleTodoModel sharedInstance].todoList addObject:item];
+    } else {
+        NSMutableArray *items = [SimpleTodoModel sharedInstance].todoList;
+        
+        for (TodoItem *item in items) {
+            if ([item.uuid isEqualToString:controller.uuid]) {
+                item.name = controller.todoName;
+                item.priority = controller.todoPriority;
+                break;
+            }
+        }
+    }
 
     [self.tableView reloadData];
 }

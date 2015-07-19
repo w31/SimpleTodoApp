@@ -23,6 +23,9 @@
 
 @property (nonatomic, weak) id <TodoItemViewControllerDelegate> delegate;
 
+@property (nonatomic, strong) NSString *action;
+
+@property (nonatomic, strong) NSString *uuid;
 @property (nonatomic, strong) NSString *todoName;
 @property (nonatomic, assign) SimpleTodoPriority todoPriority;
 
